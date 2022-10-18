@@ -1,0 +1,86 @@
+div{
+    border: 1px solid black;
+}
+ section{
+    border: 1px solid black;
+    display:grid;
+    grid-template-columns: 1fr 1.25fr 1.25fr 1.25fr ;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    height: 600px;
+    background-color: rgb(55, 37, 172);
+ }
+#results{
+    background-color: slategray;
+    grid-row-start: 1;
+    grid-row-end: 6;
+    grid-column-start: 1;
+    grid-column-end: 1;
+}
+
+#text{
+    background-color: maroon;
+    grid-column-start: 2;
+    grid-column-end: 6;
+    grid-row-start:4;
+    grid-row-end: 6;
+}
+
+#img1{
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+#img2{
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+
+#img3{
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+section img{
+    width: 300px;
+    height: 300px;
+    border: 3px solid transparent;
+    cursor: pointer;
+}
+img:hover{
+    border: 3px solid black;
+}
+
+#resultsButton{
+    text-align: center;
+    border-radius: 20px;
+    margin: 10px;
+    pointer-events: none;
+}
+
+#resultsButton{
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+#resultsButton:hover{
+    background-color: maroon;
+
+}
+
+
+footer{
+    border: 1px solid black;
+    height: 200px;
+    width: auto;
+}
+
+header{
+    border: 1px solid black;
+    height: 200px;
+    width: auto;
+}
