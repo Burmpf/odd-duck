@@ -85,42 +85,42 @@ function renderProducts() {
 
 
 
-//   let prod1 = selectRandomProduct();
-//   let prod2 = selectRandomProduct();
-//   let prod3 = selectRandomProduct();
-//   console.log(prod1, prod2, prod3);
+  //   let prod1 = selectRandomProduct();
+  //   let prod2 = selectRandomProduct();
+  //   let prod3 = selectRandomProduct();
+  //   console.log(prod1, prod2, prod3);
 
-//   while (prod1 === prod2){
-//     prod2 = selectRandomProduct();
-//   }
-//   while (prod1 === prod3){
-//     prod3 = selectRandomProduct();
-//   }
-//   while (prod2 === prod3){
-//     prod2 = selectRandomProduct();
-//     console.log(prod1, prod2, prod3);
-//   }
+  //   while (prod1 === prod2){
+  //     prod2 = selectRandomProduct();
+  //   }
+  //   while (prod1 === prod3){
+  //     prod3 = selectRandomProduct();
+  //   }
+  //   while (prod2 === prod3){
+  //     prod2 = selectRandomProduct();
+  //     console.log(prod1, prod2, prod3);
+  //   }
 
 
-img1.src = allProducts[prod1].src;
-img1.alt = allProducts[prod1].name;
-allProducts[prod1].views++;
-img2.src = allProducts[prod2].src;
-img2.alt = allProducts[prod2].name;
-allProducts[prod2].views++;
-img3.src = allProducts[prod3].src;
-img3.alt = allProducts[prod3].name;
-allProducts[prod3].views++;
+  img1.src = allProducts[prod1].src;
+  img1.alt = allProducts[prod1].name;
+  allProducts[prod1].views++;
+  img2.src = allProducts[prod2].src;
+  img2.alt = allProducts[prod2].name;
+  allProducts[prod2].views++;
+  img3.src = allProducts[prod3].src;
+  img3.alt = allProducts[prod3].name;
+  allProducts[prod3].views++;
 }
 
 
 function renderResults() {
 
-for (let i = 0; i < allProducts.length; i++) {
+  for (let i = 0; i < allProducts.length; i++) {
     let li = document.createElement('li');
     li.textContent = `${allProducts[i].name} had ${allProducts[i].views} views and ${allProducts[i].score} votes.`;
     results.appendChild(li);
-}
+  }
 }
 
 function handleClick(event) {
@@ -135,29 +135,36 @@ function handleClick(event) {
     }
   }
 
-if ( howManyTimesUserVoted === maxNumberOfVotes){
+  if ( howManyTimesUserVoted === maxNumberOfVotes){
 
     section.removeEventListener('click',handleClick);
-    resultsBtn.addEventListener('click', renderResults);
+    resultsBtn.addEventListener('click', renderChart);
 
   } else {
     renderProducts();
   }
 
 }
-const labels = prodNames;
+
+
+function renderChart() {
+  renderResults();
 
 let prodNames = [];
-
+let prodViews = [];
+let prodVotes = [];
 for (let i = 0; i < allProducts.length; i++) {
+
   prodNames.push(allProducts[i].name);
+  prodViews.push(allProducts[i].views);
+  prodVotes.push(allProducts[i].score);
 }
 
 const data = {
   labels: prodNames,
   datasets: [{
     label: 'Votes',
-    data: [65, 59, 80, 81, 56, 55, 40],
+    data: prodVotes,
     backgroundColor: [
 
       'rgba(54, 162, 235, 0.5)',
@@ -170,7 +177,7 @@ const data = {
   },
   {
     label: 'Views',
-    data: [65, 59, 80, 81, 56, 55, 40],
+    data: prodViews,
     backgroundColor: [
       'rgba(255, 99, 132, 0.5)',
 
@@ -181,13 +188,14 @@ const data = {
     ],
     borderWidth: 1
   }
-]
+  ]
 };
 
 const config = {
   type: 'bar',
   data: data,
   options: {
+    indexAxis: 'y',
     scales: {
       y: {
         beginAtZero: true
@@ -201,7 +209,7 @@ const myChart = new Chart(
   config
 );
 
-
+}
 
 
 
