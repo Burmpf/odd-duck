@@ -23,6 +23,7 @@ let img3 = document.querySelector('#img3');
 let howManyTimesUserVoted = 0;
 let maxNumberOfVotes = 25;
 
+let indexArray =[];
 
 function Product(name, fileExtension = 'jpg') {
   this.name = name;
@@ -62,21 +63,43 @@ function selectRandomProduct() {
 }
 
 function renderProducts() {
-  let prod1 = selectRandomProduct();
-  let prod2 = selectRandomProduct();
-  let prod3 = selectRandomProduct();
-  console.log(prod1, prod2, prod3);
 
-  while (prod1 === prod2){
-    prod2 = selectRandomProduct();
+  while (indexArray.length < 6){
+    let ranNum = selectRandomProduct();
+    if (!indexArray.includes(ranNum));{
+      indexArray.push(ranNum);
+    }
   }
-  while (prod1 === prod3){
-    prod3 = selectRandomProduct();
-  }
-  while (prod2 === prod3){
-    prod2 = selectRandomProduct();
-    console.log(prod1, prod2, prod3);
-  }
+  console.log(indexArray);
+  let prod1 = indexArray.shift();
+  let prod2 = indexArray.shift();
+  let prod3 = indexArray.shift();
+
+
+
+
+
+
+
+
+
+
+
+//   let prod1 = selectRandomProduct();
+//   let prod2 = selectRandomProduct();
+//   let prod3 = selectRandomProduct();
+//   console.log(prod1, prod2, prod3);
+
+//   while (prod1 === prod2){
+//     prod2 = selectRandomProduct();
+//   }
+//   while (prod1 === prod3){
+//     prod3 = selectRandomProduct();
+//   }
+//   while (prod2 === prod3){
+//     prod2 = selectRandomProduct();
+//     console.log(prod1, prod2, prod3);
+//   }
 
 
 img1.src = allProducts[prod1].src;
@@ -122,6 +145,67 @@ if ( howManyTimesUserVoted === maxNumberOfVotes){
   }
 
 }
+const labels = prodNames;
+
+let prodNames = [];
+
+for (let i = 0; i < allProducts.length; i++) {
+  prodNames.push(allProducts[i].name);
+}
+
+const data = {
+  labels: prodNames,
+  datasets: [{
+    label: 'Votes',
+    data: [65, 59, 80, 81, 56, 55, 40],
+    backgroundColor: [
+
+      'rgba(54, 162, 235, 0.5)',
+    ],
+    borderColor: [
+
+      'rgb(54, 162, 235)'
+    ],
+    borderWidth: 1
+  },
+  {
+    label: 'Views',
+    data: [65, 59, 80, 81, 56, 55, 40],
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.5)',
+
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+
+    ],
+    borderWidth: 1
+  }
+]
+};
+
+const config = {
+  type: 'bar',
+  data: data,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  },
+};
+
+const myChart = new Chart(
+  document.getElementById('myChart'),
+  config
+);
+
+
+
+
+
+
 
 section.addEventListener('click', handleClick);
 
