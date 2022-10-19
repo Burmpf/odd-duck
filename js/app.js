@@ -23,6 +23,7 @@ let img3 = document.querySelector('#img3');
 let howManyTimesUserVoted = 0;
 let maxNumberOfVotes = 25;
 
+let indexArray =[];
 
 function Product(name, fileExtension = 'jpg') {
   this.name = name;
@@ -62,42 +63,64 @@ function selectRandomProduct() {
 }
 
 function renderProducts() {
-  let prod1 = selectRandomProduct();
-  let prod2 = selectRandomProduct();
-  let prod3 = selectRandomProduct();
-  console.log(prod1, prod2, prod3);
 
-  while (prod1 === prod2){
-    prod2 = selectRandomProduct();
+  while (indexArray.length < 6){
+    let ranNum = selectRandomProduct();
+    if (!indexArray.includes(ranNum));{
+      indexArray.push(ranNum);
+    }
   }
-  while (prod1 === prod3){
-    prod3 = selectRandomProduct();
-  }
-  while (prod2 === prod3){
-    prod2 = selectRandomProduct();
-    console.log(prod1, prod2, prod3);
-  }
+  console.log(indexArray);
+  let prod1 = indexArray.shift();
+  let prod2 = indexArray.shift();
+  let prod3 = indexArray.shift();
 
 
-img1.src = allProducts[prod1].src;
-img1.alt = allProducts[prod1].name;
-allProducts[prod1].views++;
-img2.src = allProducts[prod2].src;
-img2.alt = allProducts[prod2].name;
-allProducts[prod2].views++;
-img3.src = allProducts[prod3].src;
-img3.alt = allProducts[prod3].name;
-allProducts[prod3].views++;
+
+
+
+
+
+
+
+
+
+  //   let prod1 = selectRandomProduct();
+  //   let prod2 = selectRandomProduct();
+  //   let prod3 = selectRandomProduct();
+  //   console.log(prod1, prod2, prod3);
+
+  //   while (prod1 === prod2){
+  //     prod2 = selectRandomProduct();
+  //   }
+  //   while (prod1 === prod3){
+  //     prod3 = selectRandomProduct();
+  //   }
+  //   while (prod2 === prod3){
+  //     prod2 = selectRandomProduct();
+  //     console.log(prod1, prod2, prod3);
+  //   }
+
+
+  img1.src = allProducts[prod1].src;
+  img1.alt = allProducts[prod1].name;
+  allProducts[prod1].views++;
+  img2.src = allProducts[prod2].src;
+  img2.alt = allProducts[prod2].name;
+  allProducts[prod2].views++;
+  img3.src = allProducts[prod3].src;
+  img3.alt = allProducts[prod3].name;
+  allProducts[prod3].views++;
 }
 
 
 function renderResults() {
 
-for (let i = 0; i < allProducts.length; i++) {
+  for (let i = 0; i < allProducts.length; i++) {
     let li = document.createElement('li');
     li.textContent = `${allProducts[i].name} had ${allProducts[i].views} views and ${allProducts[i].score} votes.`;
     results.appendChild(li);
-}
+  }
 }
 
 function handleClick(event) {
@@ -112,16 +135,85 @@ function handleClick(event) {
     }
   }
 
-if ( howManyTimesUserVoted === maxNumberOfVotes){
+  if ( howManyTimesUserVoted === maxNumberOfVotes){
 
     section.removeEventListener('click',handleClick);
-    resultsBtn.addEventListener('click', renderResults);
+    resultsBtn.addEventListener('click', renderChart);
 
   } else {
     renderProducts();
   }
 
 }
+
+
+function renderChart() {
+  renderResults();
+
+let prodNames = [];
+let prodViews = [];
+let prodVotes = [];
+for (let i = 0; i < allProducts.length; i++) {
+
+  prodNames.push(allProducts[i].name);
+  prodViews.push(allProducts[i].views);
+  prodVotes.push(allProducts[i].score);
+}
+
+const data = {
+  labels: prodNames,
+  datasets: [{
+    label: 'Votes',
+    data: prodVotes,
+    backgroundColor: [
+
+      'rgba(54, 162, 235, 0.5)',
+    ],
+    borderColor: [
+
+      'rgb(54, 162, 235)'
+    ],
+    borderWidth: 1
+  },
+  {
+    label: 'Views',
+    data: prodViews,
+    backgroundColor: [
+      'rgba(255, 99, 132, 0.5)',
+
+    ],
+    borderColor: [
+      'rgb(255, 99, 132)',
+
+    ],
+    borderWidth: 1
+  }
+  ]
+};
+
+const config = {
+  type: 'bar',
+  data: data,
+  options: {
+    indexAxis: 'y',
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  },
+};
+
+const myChart = new Chart(
+  document.getElementById('myChart'),
+  config
+);
+
+}
+
+
+
+
 
 section.addEventListener('click', handleClick);
 
