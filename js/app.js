@@ -152,6 +152,7 @@ function handleClick(event) {
 
 }
 
+//add chart
 
 function renderChart() {
   renderResults();
@@ -217,6 +218,7 @@ function renderChart() {
 
 }
 
+//local storage
 
 function storeProducts(){
   let stringifiedProducts = JSON.stringify(allProducts);
