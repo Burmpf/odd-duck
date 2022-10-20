@@ -70,13 +70,18 @@ function renderProducts() {
       indexArray.push(ranNum);
     }
   }
-  console.log(indexArray);
+  
   let prod1 = indexArray.shift();
   let prod2 = indexArray.shift();
   let prod3 = indexArray.shift();
 
 
-
+  while (prod1 === prod2 || prod1 === prod3) {
+    prod1 = selectRandomProduct();
+  }
+  while (prod2 === prod1 || prod2 === prod3) {
+    prod2 = selectRandomProduct();
+  }
 
 
 
@@ -138,6 +143,7 @@ function handleClick(event) {
   if ( howManyTimesUserVoted === maxNumberOfVotes){
 
     section.removeEventListener('click',handleClick);
+    storeProducts();
     resultsBtn.addEventListener('click', renderChart);
 
   } else {
@@ -150,77 +156,86 @@ function handleClick(event) {
 function renderChart() {
   renderResults();
 
-let prodNames = [];
-let prodViews = [];
-let prodVotes = [];
-for (let i = 0; i < allProducts.length; i++) {
+  let prodNames = [];
+  let prodViews = [];
+  let prodVotes = [];
+  for (let i = 0; i < allProducts.length; i++) {
 
-  prodNames.push(allProducts[i].name);
-  prodViews.push(allProducts[i].views);
-  prodVotes.push(allProducts[i].score);
-}
-
-const data = {
-  labels: prodNames,
-  datasets: [{
-    label: 'Votes',
-    data: prodVotes,
-    backgroundColor: [
-
-      'rgba(54, 162, 235, 0.5)',
-    ],
-    borderColor: [
-
-      'rgb(54, 162, 235)'
-    ],
-    borderWidth: 1
-  },
-  {
-    label: 'Views',
-    data: prodViews,
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.5)',
-
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-
-    ],
-    borderWidth: 1
+    prodNames.push(allProducts[i].name);
+    prodViews.push(allProducts[i].views);
+    prodVotes.push(allProducts[i].score);
   }
-  ]
-};
 
-const config = {
-  type: 'bar',
-  data: data,
-  options: {
-    indexAxis: 'y',
-    scales: {
-      y: {
-        beginAtZero: true
-      }
+  const data = {
+    labels: prodNames,
+    datasets: [{
+      label: 'Votes',
+      data: prodVotes,
+      backgroundColor: [
+
+        'rgba(54, 162, 235, 0.5)',
+      ],
+      borderColor: [
+
+        'rgb(54, 162, 235)'
+      ],
+      borderWidth: 1
+    },
+    {
+      label: 'Views',
+      data: prodViews,
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.5)',
+
+      ],
+      borderColor: [
+        'rgb(255, 99, 132)',
+
+      ],
+      borderWidth: 1
     }
-  },
-};
+    ]
+  };
 
-const myChart = new Chart(
-  document.getElementById('myChart'),
-  config
-);
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      indexAxis: 'y',
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+  };
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
 
 }
 
 
+function storeProducts(){
+  let stringifiedProducts = JSON.stringify(allProducts);
+  localStorage.setItem('products', stringifiedProducts);
+}
+
+function getProducts() {
+  let potentialProducts = localStorage.getItem('products');
+  if (potentialProducts) {
+    let parseProducts = JSON.parse(potentialProducts);
+    allProducts = parseProducts;
+  }
+}
 
 
 
+getProducts();
 section.addEventListener('click', handleClick);
-
-
-
-
-
 renderProducts();
+
 
 
